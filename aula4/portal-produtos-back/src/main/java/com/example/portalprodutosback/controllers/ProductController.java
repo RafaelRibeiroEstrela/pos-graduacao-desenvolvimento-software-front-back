@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,7 +22,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductResponse> create(@RequestBody ProductRequest productRequest) {
-        Product model = productService.create(productRequest);
+        Product model = productService.save(productRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProductResponse(model));
     }
 
@@ -31,14 +30,5 @@ public class ProductController {
     public ResponseEntity<List<ProductResponse>> find() {
         List<Product> models = productService.findAll();
         return ResponseEntity.ok().body(models.stream().map(ProductResponse::new).toList());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<List<ProductResponse>> findById(@PathVariable Long id) {
-        Product model = productService.findById(id);
-        if (model == null) {
-            return ResponseEntity.ok().body(new ArrayList<>());
-        }
-        return ResponseEntity.ok().body(List.of(new ProductResponse(model)));
     }
 }

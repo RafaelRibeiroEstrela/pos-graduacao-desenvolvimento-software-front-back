@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react'
 import type {ProductResponse} from "../dtos/ProductResponse.ts";
 import {fetchProducts} from "../controllers/ProductController.ts";
 
-export function useProducts(filtro: string): {
+export function useProducts(): {
     products: ProductResponse[];
     loading: boolean;
     error: string | null;
@@ -16,10 +16,10 @@ export function useProducts(filtro: string): {
     useEffect(() => {
         let isMounted = true
 
-        fetchProducts(filtro)
+        fetchProducts()
             .then(data => {
                 if (isMounted) {
-                    setProducts(data)
+                    setProducts(data.data)
                 }
             })
             .catch(err => {

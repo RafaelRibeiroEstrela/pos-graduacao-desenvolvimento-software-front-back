@@ -1,21 +1,24 @@
-import { useProducts } from "../../hooks/UseProduct.ts";
-import ProductList from "./ProductList.tsx";
-import PaginaPadrao from "../../components/PaginaPadrao.tsx";
-import { useState } from "react";
-import FiltroTexto from "../../components/FiltroTexto.tsx";
+// src/pages/produtos/ListarProdutos.tsx
+import React, { useMemo, useState } from "react";
+import ProductList from "./ProductList";
+import PaginaPadrao from "../../components/PaginaPadrao";
+import FiltroTexto from "../../components/FiltroTexto";
+import { useProducts } from "../../hooks/UseProduct";
+import { filterProductsById } from "../../utils/Filter";
 
-function ListarProdutos() {
-  const [filtro, setFiltro] = useState<string>("");
-  const { products, loading, error } = useProducts(filtro);
+export default function ListarProdutos() {
+  const [filtroId, setFiltroId] = useState("");
+  const { products, loading, error } = useProducts(); // busca tudo uma vez
+
+  // O onChange do FiltroTexto já vem DEPOIS de 500ms (debounce)
+  const filtered = useMemo(
+    () => filterProductsById(products, filtroId),
+    [products, filtroId]
+  );
 
   if (loading) {
-    return (
-      <div style={{ padding: "2rem", textAlign: "center" }}>
-        <p>🔄 Carregando produtos...</p>
-      </div>
-    );
+    return <div style={{ padding: "2rem", textAlign: "center" }}><p>🔄 Carregando produtos...</p></div>;
   }
-
   if (error) {
     return (
       <div style={{ padding: "2rem", textAlign: "center", color: "red" }}>
@@ -27,24 +30,25 @@ function ListarProdutos() {
 
   return (
     <div>
-      <PaginaPadrao></PaginaPadrao>
+      <PaginaPadrao />
       <main style={{ padding: "1rem" }}>
         <h3 style={{ marginBottom: "1rem" }}>Catálogo de Produtos</h3>
+
         <div style={{ marginBottom: "1rem" }}>
           <FiltroTexto
-            value={filtro}
-            onChange={setFiltro}
-            placeholder="Filtrar por id"
-            debounceMs={300}
+            value={filtroId}
+            // força somente números ao salvar o valor debounced
+            onChange={(v) => setFiltroId(v.replace(/\D+/g, ""))}
+            placeholder="Filtrar por ID (apenas números)"
+            debounceMs={500} // redundante, mas explícito
           />
           <div style={{ marginTop: ".5rem", color: "#666" }}>
-            {products.length} resultado(s)
+            {filtered.length} resultado(s)
           </div>
         </div>
-        <ProductList products={products.data} />
+
+        <ProductList products={filtered} />
       </main>
     </div>
   );
 }
-
-export default ListarProdutos;

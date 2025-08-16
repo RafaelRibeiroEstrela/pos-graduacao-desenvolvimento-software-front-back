@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch"
+  }
+}
