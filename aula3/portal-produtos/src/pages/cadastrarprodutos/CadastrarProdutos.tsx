@@ -39,7 +39,7 @@ export default function CadastrarProduto() {
         // limpa formulário
         setForm(initialState);
         // opcional: desvia para lista de produtos
-        navigate('/listar-produtos');
+        navigate('/');
     };
 
     // Quando o produto for salvo com sucesso, limpa o formulário
