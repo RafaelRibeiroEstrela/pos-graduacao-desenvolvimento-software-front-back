@@ -31,4 +31,16 @@ public class ProductController {
         List<Product> models = productService.findAll();
         return ResponseEntity.ok().body(models.stream().map(ProductResponse::new).toList());
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponse> update(@RequestBody ProductRequest productRequest, @PathVariable Long id) {
+        Product model = productService.update(productRequest, id);
+        return ResponseEntity.ok().body(new ProductResponse(model));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ProductResponse> delete(@PathVariable Long id) {
+        productService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

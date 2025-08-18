@@ -36,9 +36,19 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product save(Product product) {
-        product.setId(generateId());
-        products.add(product);
+        if (product.getId() == null) {
+            product.setId(generateId());
+            products.add(product);
+        } else {
+            deleteById(product.getId());
+            products.add(product);
+        }
         return product;
+    }
+
+    @Override
+    public void deleteById(long id) {
+        products.removeIf(obj -> obj.getId().equals(id));
     }
 
     private synchronized long generateId() {

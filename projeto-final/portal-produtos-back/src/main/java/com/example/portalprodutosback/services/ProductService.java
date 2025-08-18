@@ -26,5 +26,14 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public Product update(ProductRequest request, long id) {
+        Product model = request.toModel();
+        model.setId(id);
+        return productRepository.save(model);
+    }
+
+    public void delete(long id) {
+        productRepository.deleteById(id);
+    }
 
 }
