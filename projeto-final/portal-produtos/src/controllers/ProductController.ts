@@ -9,3 +9,11 @@ export async function fetchProducts(): Promise<ProductResponse[]> {
 export async function saveProduct(request: ProductRequest): Promise<ProductResponse> {
   return axios.post("http://localhost:8080/products", request);
 }
+
+export async function updateProduct(request: ProductRequest, id: number): Promise<ProductResponse> {
+  return axios.put("http://localhost:8080/products/" + id, request);
+}
+
+export async function deleteProduct(id: number): Promise<void> {
+  return axios.delete("http://localhost:8080/products/" + id);
+}

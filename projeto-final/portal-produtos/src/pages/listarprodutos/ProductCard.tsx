@@ -2,6 +2,7 @@
 import './css/ProductCard.css'
 import type {ProductResponse} from "../../dtos/ProductResponse.ts";
 import type {ComponentType} from "react";
+import { Button } from 'primereact/button';
 
 interface Props {
     product: ProductResponse
@@ -27,6 +28,8 @@ const ProductCard: ComponentType<Props> = ({ product }) => {
                 <p className="product-card__description">
                     {product.description.slice(0, 100)}…
                 </p>
+                <Button>Atualizar</Button>
+                <Button>Deletar</Button>
             </div>
         </article>
     )
