@@ -1,32 +1,44 @@
+// hooks/UseDeleteProduct.ts
 import { useEffect, useState } from "react";
-import type { ProductRequest } from "../dtos/ProductRequest.ts";
-import type { ProductResponse } from "../dtos/ProductResponse.ts";
-import { deleteProduct } from "../controllers/ProductController.ts";
+import { deleteProduct } from "../controllers/ProductController";
 
 function useDeleteProduct() {
-  const [id, setId] = useState<number>(0);
+  const [pendingId, setPendingId] = useState<number | null>(null);
+  const [deletedId, setDeletedId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   function triggerDelete(id: number) {
-    setId(id);
+    setPendingId(id);
   }
 
   useEffect(() => {
+    if (pendingId == null) return; // só executa quando alguém chamar triggerDelete
+
+    let cancelled = false;
     setLoading(true);
     setError(null);
+    setDeletedId(null);
 
-    deleteProduct(id)
+    deleteProduct(pendingId)
+      .then(() => {
+        if (!cancelled) setDeletedId(pendingId);
+      })
       .catch((err) => {
-        setError(err.message || "Erro desconhecido ao salvar");
+        if (!cancelled) setError(err.message || "Erro desconhecido ao excluir");
       })
       .finally(() => {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       });
-  });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [pendingId]);
 
   return {
     triggerDelete,
+    deletedId,   // <- usamos isso para saber que deu certo
     loading,
     error,
   };
