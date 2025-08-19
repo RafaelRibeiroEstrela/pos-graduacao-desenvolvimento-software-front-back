@@ -93,7 +93,7 @@ export default function ModalAtualizarProduto({
       onHide={onHide}
       modal
       blockScroll
-      style={{ width: "640px", maxWidth: "95vw" }}
+      style={{ width: "640px", maxWidth: "95vw", background: "blue" , borderRadius: "2vw" }}
       footer={footer}
     >
       {!form ? (
