@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, Observable, throwError} from 'rxjs';
+import {catchError, Observable, of, throwError} from 'rxjs';
+import {ProductResponse} from '../models/product-response.model';
+import {ProductRequest} from '../models/product-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class ProductClientService {
     return this.http.get<ProductResponse[]>(this.url).pipe(
       catchError(error => {
         console.error("Erro ao buscar produtos:", error);
-        return throwError(() => error);
+        return of([]);
       })
     );
   }
@@ -40,9 +42,9 @@ export class ProductClientService {
     );
   }
 
-  delete(request: ProductRequest, id: number): void {
+  delete(id: number): Observable<void> {
     const url = `${this.url}/${id}`;
-    this.http.delete<void>(url).pipe(
+    return this.http.delete<void>(url).pipe(
       catchError(error => {
         console.error("Erro ao deletar produtos:", error);
         return throwError(() => error);

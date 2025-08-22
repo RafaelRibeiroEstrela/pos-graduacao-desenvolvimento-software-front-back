@@ -1,5 +1,4 @@
-
-interface ProductRequest {
+export interface ProductRequest {
   name: string;
   description: string;
   price: number;
