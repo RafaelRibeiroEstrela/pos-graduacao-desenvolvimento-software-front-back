@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
@@ -35,8 +36,8 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Product findById(long id) {
-        return products.stream().filter(product -> product.getId() == id).findFirst().orElse(null);
+    public Optional<Product> findById(long id) {
+        return products.stream().filter(product -> product.getId() == id).findFirst();
     }
 
     @Override

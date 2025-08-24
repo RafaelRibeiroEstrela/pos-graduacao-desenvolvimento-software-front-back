@@ -28,6 +28,12 @@ export class ProductClientService {
     );
   }
 
+  findById(id: number): Observable<ProductResponse> {
+    return from(this.api.get<ProductResponse>(`/${id}`)).pipe(
+      map(res => res.data)
+    );
+  }
+
   findAll(): Observable<ProductResponse[]> {
     return from(this.api.get<ProductResponse[]>('')).pipe(
       map((res) => res.data),

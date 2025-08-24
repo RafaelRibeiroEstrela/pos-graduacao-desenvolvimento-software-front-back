@@ -1,5 +1,12 @@
 
 <h3>LISTAGEM DE PRODUTOS</h3>
-@for (p of products; track p.id) {
-  <app-product-card [productProp]="p" (productIsDeleted)="onDeleted()"></app-product-card>
+<p>Buscar produto por id</p>
+<input type="text" [(ngModel)]="filtro" placeholder="Informe o id do produto">
+<button (click)="buscarPorFiltro(filtro)">Buscar</button>
+
+@if (products && products.length > 0) {
+  @for (p of products; track p.id) {
+    <app-product-card [productProp]="p" (productIsDeleted)="onDeleted()"></app-product-card>
+  }
 }
+
