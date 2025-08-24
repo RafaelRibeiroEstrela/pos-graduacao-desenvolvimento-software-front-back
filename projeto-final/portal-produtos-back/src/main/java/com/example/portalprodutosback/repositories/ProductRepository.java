@@ -7,6 +7,7 @@ import java.util.List;
 public interface ProductRepository {
 
     List<Product> findAll();
+    Product findById(long id);
     Product save(Product product);
     void deleteById(long id);
 }

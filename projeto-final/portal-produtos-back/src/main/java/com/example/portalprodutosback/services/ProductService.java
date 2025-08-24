@@ -26,6 +26,10 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public Product findById(Long id) {
+        return productRepository.findById(id);
+    }
+
     public Product update(ProductRequest request, long id) {
         Product model = request.toModel();
         model.setId(id);

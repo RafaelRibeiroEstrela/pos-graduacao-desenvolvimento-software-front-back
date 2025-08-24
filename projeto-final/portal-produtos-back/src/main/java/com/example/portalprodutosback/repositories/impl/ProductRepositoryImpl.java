@@ -35,6 +35,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public Product findById(long id) {
+        return products.stream().filter(product -> product.getId() == id).findFirst().orElse(null);
+    }
+
+    @Override
     public Product save(Product product) {
         if (product.getId() == null) {
             product.setId(generateId());

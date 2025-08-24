@@ -32,6 +32,12 @@ public class ProductController {
         return ResponseEntity.ok().body(models.stream().map(ProductResponse::new).toList());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
+        Product model = productService.findById(id);
+        return ResponseEntity.ok().body(new ProductResponse(model));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponse> update(@RequestBody ProductRequest productRequest, @PathVariable Long id) {
         Product model = productService.update(productRequest, id);
