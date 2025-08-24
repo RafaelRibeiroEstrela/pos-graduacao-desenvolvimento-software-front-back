@@ -27,4 +27,8 @@ export class ProductListComponent {
       error: (err) => console.error('Erro ao carregar:', err.message),
     });
   }
+
+  onDeleted() {
+    this.reload();
+  }
 }

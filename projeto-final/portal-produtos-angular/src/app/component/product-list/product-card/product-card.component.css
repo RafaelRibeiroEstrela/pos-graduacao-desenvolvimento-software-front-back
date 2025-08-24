@@ -51,3 +51,106 @@
     }
   }
 }
+
+/* Caixa base do dialog */
+dialog {
+  border: none;
+  border-radius: 12px;
+  padding: 3rem;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  max-width: 500px;
+  width: 90%;
+  margin: auto;
+  font-family: system-ui, sans-serif;
+}
+
+/* título */
+dialog h3 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* campos do formulário */
+dialog .field {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+dialog label span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+dialog input,
+dialog textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+dialog input:focus,
+dialog textarea:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25);
+}
+
+/* ações no rodapé */
+dialog .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+/* botões */
+dialog .btn {
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+dialog .btn:hover {
+  opacity: 0.9;
+}
+
+/* botão primário (Atualizar / Deletar) */
+dialog .btn {
+  background-color: #22c55e;
+  border-color: #22c55e;
+  color: #fff;
+}
+
+dialog .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* botão secundário (Cancelar) */
+dialog .btn--ghost {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+dialog .btn--ghost:hover {
+  background: #f3f4f6;
+}
+
+/* destaque diferente para o delete */
+dialog .btn.delete {
+  background-color: #ef4444;
+  border-color: #ef4444;
+  color: #fff;
+}
+

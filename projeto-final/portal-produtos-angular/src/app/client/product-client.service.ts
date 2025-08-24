@@ -1,52 +1,68 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {catchError, Observable, of, throwError} from 'rxjs';
-import {ProductResponse} from '../models/product-response.model';
-import {ProductRequest} from '../models/product-request.model';
+import { Injectable } from '@angular/core';
+import axios, { AxiosInstance, AxiosError } from 'axios';
+import { from, map, catchError, of, throwError, Observable } from 'rxjs';
+import { ProductResponse } from '../models/product-response.model';
+import { ProductRequest } from '../models/product-request.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class ProductClientService {
+  private readonly api: AxiosInstance;
 
-  private url: string = "http://localhost:8080/products";
+  private readonly baseURL = 'http://localhost:8080/products';
 
-  constructor(private http: HttpClient) {
+  constructor() {
+    this.api = axios.create({
+      baseURL: this.baseURL,
+      timeout: 15_000,
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    this.api.interceptors.response.use(
+      (res) => res,
+      (err: AxiosError) => {
+        const status = err.response?.status;
+        const data = err.response?.data;
+        console.error('[Axios Error]', status, data || err.message);
+        return Promise.reject(err);
+      }
+    );
   }
 
   findAll(): Observable<ProductResponse[]> {
-    return this.http.get<ProductResponse[]>(this.url).pipe(
-      catchError(error => {
-        console.error("Erro ao buscar produtos:", error);
-        return of([]);
+    return from(this.api.get<ProductResponse[]>('')).pipe(
+      map((res) => res.data),
+      catchError((error) => {
+        console.error('Erro ao buscar produtos:', error);
+        return of([]); // mantém comportamento anterior
       })
     );
   }
 
   create(request: ProductRequest): Observable<ProductResponse> {
-    return this.http.post<ProductResponse>(this.url, request).pipe(
-      catchError(error => {
-        console.error("Erro ao criar produtos:", error);
+    return from(this.api.post<ProductResponse>('', request)).pipe(
+      map((res) => res.data),
+      catchError((error) => {
+        console.error('Erro ao criar produto:', error);
         return throwError(() => error);
       })
     );
   }
 
   update(request: ProductRequest, id: number): Observable<ProductResponse> {
-    const url = `${this.url}/${id}`;
-    return this.http.put<ProductResponse>(url, request).pipe(
-      catchError(error => {
-        console.error("Erro ao atualizar produtos:", error);
+    return from(this.api.put<ProductResponse>(`/${id}`, request)).pipe(
+      map((res) => res.data),
+      catchError((error) => {
+        console.error('Erro ao atualizar produto:', error);
         return throwError(() => error);
       })
     );
   }
 
   delete(id: number): Observable<void> {
-    const url = `${this.url}/${id}`;
-    return this.http.delete<void>(url).pipe(
-      catchError(error => {
-        console.error("Erro ao deletar produtos:", error);
+    return from(this.api.delete<void>(`/${id}`)).pipe(
+      map((res) => res.data as void),
+      catchError((error) => {
+        console.error('Erro ao deletar produto:', error);
         return throwError(() => error);
       })
     );

@@ -1,3 +1,5 @@
+
+<h3>LISTAGEM DE PRODUTOS</h3>
 @for (p of products; track p.id) {
-  <app-product-card [productProp]="{id: p.id, name:p.name, category:p.category, price:p.price, description:p.description, pictureUrl:p.pictureUrl}"></app-product-card>
+  <app-product-card [productProp]="p" (productIsDeleted)="onDeleted()"></app-product-card>
 }

@@ -1,15 +1,58 @@
 <div class='ProductCard'>
-  <img src="{{productProp.pictureUrl}}" alt="{{productProp.name}}" />
+  <img src="{{productProp.pictureUrl}}" alt="{{productProp.name}}"/>
   <section>
-    <h1>({{productProp.id}}) {{productProp.name}}</h1>
-    <p>{{productProp.category}}</p>
-    <p>R${{productProp.price}}</p>
+    <h1>({{ productProp.id }}) {{ productProp.name }}</h1>
+    <p>{{ productProp.category }}</p>
+    <p>R${{ productProp.price }}</p>
     <div class="ProductCardButtonDiv">
-      <Button>Editar</Button>
-      <Button>Excluir</Button>
+      <button (click)="openModalUpdate()">Editar</button>
+      <button (click)="openModalDelete()">Excluir</button>
     </div>
-    @if (hideModal) {
-      <app-modal-update-product [productProp]="productProp"></app-modal-update-product>
-    }
   </section>
+
+  @if (modalUpdate) {
+    <dialog open>
+      <h3>Atualizar Produto</h3>
+
+      <label class="field">
+        <span>Nome *</span>
+        <input name="name" [(ngModel)]="productProp.name" required/>
+      </label>
+
+      <label class="field">
+        <span>Preço (R$) *</span>
+        <input name="price" type="text" step="0.01" min="0" [(ngModel)]="productProp.price" required/>
+      </label>
+
+      <label class="field">
+        <span>Categoria *</span>
+        <input name="category" [(ngModel)]="productProp.category" required/>
+      </label>
+
+      <label class="field">
+        <span>URL da imagem *</span>
+        <input name="pictureUrl" type="url" [(ngModel)]="productProp.pictureUrl"/>
+      </label>
+
+      <label class="field">
+        <span>Descrição *</span>
+        <textarea name="description" rows="3" [(ngModel)]="productProp.description"></textarea>
+      </label>
+
+      <div class="actions">
+        <button type="button" class="btn btn--ghost" (click)="closeModalUpdate()">Cancelar</button>
+        <button (click)="updateProduct(productProp)" type="submit" class="btn">Atualizar</button>
+      </div>
+    </dialog>
+  }
+
+  @if (modalDelete) {
+    <dialog open>
+      <p>Deseja deletar o produto {{ productProp.id }} ? </p>
+      <div class="actions">
+        <button type="button" class="btn btn--ghost" (click)="closeModalDelete()">Cancelar</button>
+        <button (click)="deleteProduct(productProp.id)" type="submit" class="btn delete">Deletar</button>
+      </div>
+    </dialog>
+  }
 </div>

@@ -43,4 +43,12 @@ public class ProductController {
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/import")
+    public ResponseEntity<List<ProductResponse>> importProduct(@RequestBody List<ProductRequest> productRequestList) {
+        List<Product> models = productRequestList.stream()
+                .map(productService::save)
+                .toList();
+        return ResponseEntity.status(HttpStatus.CREATED).body(models.stream().map(ProductResponse::new).toList());
+    }
 }
