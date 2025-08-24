@@ -1,0 +1,15 @@
+<div class='ProductCard'>
+  <img src="{{productProp.pictureUrl}}" alt="{{productProp.name}}" />
+  <section>
+    <h1>({{productProp.id}}) {{productProp.name}}</h1>
+    <p>{{productProp.category}}</p>
+    <p>R${{productProp.price}}</p>
+    <div class="ProductCardButtonDiv">
+      <Button>Editar</Button>
+      <Button>Excluir</Button>
+    </div>
+    @if (hideModal) {
+      <app-modal-update-product [productProp]="productProp"></app-modal-update-product>
+    }
+  </section>
+</div>

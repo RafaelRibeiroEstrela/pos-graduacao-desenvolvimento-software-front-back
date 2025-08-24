@@ -1,0 +1,53 @@
+.ProductCard {
+  height: 18rem;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 0.75rem;
+  box-sizing: border-box;
+
+  img {
+    width: 15rem;
+    height: 15rem;
+    margin-right: .75rem;
+  }
+
+  section {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    h1 {
+      font-weight: normal;
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+      margin: .2rem 0;
+    }
+  }
+}
+
+.ProductCardButtonDiv {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+
+  button:last-child {
+    margin-left: 1rem;
+    background-color: #cc2727;
+    border-color: #821515;
+
+    &:hover {
+      background-color: #b52424;
+    }
+
+    &:active {
+      background-color: #8f1d1d;
+    }
+  }
+}

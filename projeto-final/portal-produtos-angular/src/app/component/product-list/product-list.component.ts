@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {ProductClientService} from '../../client/product-client.service';
-import {ProductCardComponent} from '../product-card/product-card.component';
+import {ProductCardComponent} from './product-card/product-card.component';
 import {ProductResponse} from '../../models/product-response.model';
 
 @Component({
