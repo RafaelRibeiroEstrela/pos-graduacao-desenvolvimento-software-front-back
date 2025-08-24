@@ -51,7 +51,7 @@ public class ProductController {
     }
 
     @PostMapping("/import")
-    public ResponseEntity<List<ProductResponse>> importProduct(@RequestBody List<ProductRequest> productRequestList) {
+    public ResponseEntity<List<ProductResponse>> importProducts(@RequestBody List<ProductRequest> productRequestList) {
         List<Product> models = productRequestList.stream()
                 .map(productService::save)
                 .toList();
