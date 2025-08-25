@@ -25,15 +25,18 @@ export class ProductImportComponent {
   productsSelected: ProductSelected[] = [];
   showButtonSave: boolean = false
 
-  importCsv(file: File | null): void {
-    if (!file) return;
+  importCsv(fileList: FileList | null): void {
+    if (fileList == null) {
+      return;
+    }
+    const file: File = fileList[0];
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
+      delimiter: ";",
       complete: (results) => {
         const rows = results.data as any[];
         const headers = results.meta.fields?.map(f => f.trim().toLowerCase()) ?? [];
-
         const missing = this.requiredHeaders.filter(
           h => !headers.includes(h.toLowerCase())
         );
@@ -41,7 +44,6 @@ export class ProductImportComponent {
           this.validationErrors.emit([`Faltando colunas: ${missing.join(', ')}`]);
           return;
         }
-
         this.productsSelected = rows.map(r => ({
           productRequest: {
             name: r['name'],
@@ -52,6 +54,7 @@ export class ProductImportComponent {
           },
           selected: false
         }));
+        console.log(this.productsSelected);
       },
       error: (err) => {
         console.log(err);

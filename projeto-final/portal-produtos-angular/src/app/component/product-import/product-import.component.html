@@ -4,14 +4,14 @@
     type="file"
     accept=".csv,text/csv"
     #csvInput
-    (change)="csvInput.files?.length && importCsv(csvInput.files == null ? null : csvInput.files[0])"
+    (change)="importCsv(csvInput.files)"
     hidden
   />
   <button type="button" (click)="csvInput.click()">Escolher CSV</button>
 </label>
 @if (productsSelected && productsSelected.length > 0) {
   @for (p of productsSelected; track $index) {
-    <div>
+    <div class="ProductCard">
       <img src="{{p.productRequest.pictureUrl}}" alt="{{p.productRequest.name}}"/>
       <section>
         <h1>{{ p.productRequest.name }}</h1>
