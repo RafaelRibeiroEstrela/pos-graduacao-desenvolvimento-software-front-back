@@ -1,1 +1,32 @@
 <h3>IMPORTAÇÃO DE PRODUTOS</h3>
+<label>
+  <input
+    type="file"
+    accept=".csv,text/csv"
+    #csvInput
+    (change)="csvInput.files?.length && importCsv(csvInput.files == null ? null : csvInput.files[0])"
+    hidden
+  />
+  <button type="button" (click)="csvInput.click()">Escolher CSV</button>
+</label>
+@if (productsSelected && productsSelected.length > 0) {
+  @for (p of productsSelected; track $index) {
+    <div>
+      <img src="{{p.productRequest.pictureUrl}}" alt="{{p.productRequest.name}}"/>
+      <section>
+        <h1>{{ p.productRequest.name }}</h1>
+        <p>{{ p.productRequest.category }}</p>
+        <p>R${{ p.productRequest.price }}</p>
+        <input type="checkbox" [(ngModel)]="p.selected" (change)="markSelected(p)">
+      </section>
+    </div>
+  }
+  <div class="actions">
+    <button type="button" class="btn btn--ghost" (click)="handleCancel()">Cancelar</button>
+
+    @if (showButtonSave) {
+      <button (click)="submit()" type="submit" class="btn">Salvar</button>
+    }
+
+  </div>
+}

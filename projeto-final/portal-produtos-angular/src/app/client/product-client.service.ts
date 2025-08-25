@@ -44,6 +44,16 @@ export class ProductClientService {
     );
   }
 
+  importCsv(request: ProductRequest[]): Observable<ProductResponse[]> {
+    return from(this.api.post<ProductResponse[]>('/import', request)).pipe(
+      map((res) => res.data),
+      catchError((error) => {
+        console.error('Erro ao criar produto:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
   create(request: ProductRequest): Observable<ProductResponse> {
     return from(this.api.post<ProductResponse>('', request)).pipe(
       map((res) => res.data),
