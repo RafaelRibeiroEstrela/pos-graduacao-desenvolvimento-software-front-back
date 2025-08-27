@@ -14,7 +14,7 @@ npm i
 
 npm run dev
 
-Para executar o projet frontend do React, basta abrir um cmd na pasta do projeto React e executar os seguintes comandos:
+Para executar o projet frontend do Angular, basta abrir um cmd na pasta do projeto Angular e executar os seguintes comandos:
 
 npm i
 
